@@ -15,7 +15,9 @@
                             <p class="mt-2 text-sm text-gray-700">A list of all the {{ __('Posts') }}.</p>
                         </div>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                        @auth
                             <a type="button" href="{{ route('posts.create') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add new</a>
+                        @endauth
                         </div>
                     </div>
 
@@ -26,7 +28,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">No</th>
-                                        
+
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Titulo</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Contenido</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Publicado</th>
@@ -38,7 +40,7 @@
                                     @foreach ($posts as $post)
                                         <tr class="even:bg-gray-50">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900">{{ ++$i }}</td>
-                                            
+
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $post->titulo }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $post->contenido }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $post->publicado }}</td>
@@ -46,10 +48,12 @@
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                                     <a href="{{ route('posts.show', $post->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
-                                                    <a href="{{ route('posts.edit', $post->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="{{ route('posts.destroy', $post->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
+                                                    @auth
+                                                        <a href="{{ route('posts.edit', $post->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <a href="{{ route('posts.destroy', $post->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
+                                                    @endauth
                                                 </form>
                                             </td>
                                         </tr>

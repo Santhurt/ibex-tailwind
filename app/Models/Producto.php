@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,7 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Producto extends Model
 {
-    
+    use HasFactory;
+
     protected $perPage = 20;
 
     /**
@@ -46,7 +48,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\Notificacione::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -54,7 +56,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\OrdenesDetalle::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -62,7 +64,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\RecetasIngrediente::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -70,7 +72,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\Comentario::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -78,7 +80,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\Descuento::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -86,7 +88,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\DetallePedido::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -94,7 +96,7 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\ImagenesProd::class, 'id_producto', 'id_producto');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -102,5 +104,5 @@ class Producto extends Model
     {
         return $this->hasMany(\App\Models\DetallesPedido::class, 'id', 'producto_id');
     }
-    
+
 }
