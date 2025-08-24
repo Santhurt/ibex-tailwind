@@ -34,6 +34,10 @@
                     <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('dashboard')">
                         Empleados
                     </x-nav-link>
+
+                    <x-nav-link :href="route('ventas.index')" :active="request()->routeIs('dashboard')">
+                        Ventas
+                    </x-nav-link>
                 </div>
             </div>
 

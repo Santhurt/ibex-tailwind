@@ -8,18 +8,21 @@ use Illuminate\Database\Eloquent\Model;
  * Class Venta
  *
  * @property $id
+ * @property $fecha
  * @property $total
- * @property $id_producto
+ * @property $empleado_id
  * @property $created_at
  * @property $updated_at
  *
+ * @property Empleado $empleado
  * @property VentasEmpleado[] $ventasEmpleados
+ * @property VentaProducto[] $ventaProductos
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Venta extends Model
 {
-    
+
     protected $perPage = 20;
 
     /**
@@ -27,15 +30,16 @@ class Venta extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['total', 'id_producto'];
+    protected $fillable = ['fecha', 'total', 'empleado_id'];
 
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function ventasEmpleados()
+    public function empleado()
     {
-        return $this->hasMany(\App\Models\VentasEmpleado::class, 'id_venta', 'id_venta');
+        return $this->belongsTo(Empleado::class);
     }
-    
+
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, "venta_producto")
+            ->withPivot("cantidad", "subtotal");
+    }
 }

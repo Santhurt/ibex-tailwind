@@ -22,8 +22,9 @@ class VentaRequest extends FormRequest
     public function rules(): array
     {
         return [
+			'fecha' => 'required',
 			'total' => 'required',
-			'id_producto' => 'required',
+			'empleado_id' => 'required',
         ];
     }
 }

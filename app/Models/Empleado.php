@@ -16,14 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property $created_at
  * @property $updated_at
  *
- * @property VentasEmpleado[] $ventasEmpleados
- * @property Asignacione[] $asignaciones
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Empleado extends Model
 {
-    
+
     protected $perPage = 20;
 
     /**
@@ -33,21 +31,9 @@ class Empleado extends Model
      */
     protected $fillable = ['name', 'email'];
 
+    public function ventas()
+    {
+        $this->hasMany(Venta::class);
+    }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function ventasEmpleados()
-    {
-        return $this->hasMany(\App\Models\VentasEmpleado::class, 'documento', 'documento_empleado');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function asignaciones()
-    {
-        return $this->hasMany(\App\Models\Asignacione::class, 'identificacion', 'identificacion');
-    }
-    
 }
