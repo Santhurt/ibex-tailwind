@@ -6,6 +6,8 @@ use App\Models\Venta;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\VentaRequest;
+use App\Models\Empleado;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -27,9 +29,10 @@ class VentaController extends Controller
      */
     public function create(): View
     {
-        $venta = new Venta();
+        $productos = Producto::where("stock", ">", 0)->get();
+        $empleados = Empleado::all();
 
-        return view('venta.create', compact('venta'));
+        return view('venta.create', compact('productos', 'empleados'));
     }
 
     /**
@@ -80,5 +83,20 @@ class VentaController extends Controller
 
         return Redirect::route('ventas.index')
             ->with('success', 'Venta deleted successfully');
+    }
+
+    public function getProductPrice($id)
+    {
+        $producto = Producto::find($id);
+
+        if ($producto) {
+            return response()->json([
+                "precio" => $producto->precio,
+                "stock" => $producto->stock,
+                "nombre" => $producto->nombre
+            ]);
+        }
+
+        return response()->json(["error" => "Producto no encontrado"], 404);
     }
 }

@@ -15,6 +15,8 @@ Route::resource("posts", PostController::class);
 Route::resource("productos", ProductoController::class);
 Route::resource("empleados", EmpleadoController::class);
 Route::resource("ventas", VentaController::class);
+Route::get("productos/{id}/precio", [VentaController::class], "getProductoPrice")
+    ->name("producto.precio");
 
 
 Route::get('/dashboard', function () {
@@ -27,4 +29,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
