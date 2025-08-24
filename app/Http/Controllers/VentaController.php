@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\VentaRequest;
 use App\Models\Empleado;
 use App\Models\Producto;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class VentaController extends Controller
 {
@@ -38,12 +41,61 @@ class VentaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(VentaRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        Venta::create($request->validated());
+ #       dd("entro");
 
-        return Redirect::route('ventas.index')
-            ->with('success', 'Venta created successfully.');
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->productos as $producto) {
+                $productosModel = Producto::find($producto["id"]);
+
+                if ($productosModel->stock < $producto["cantidad"]) {
+                    throw new \Exception("Stock insuficiente para el producto: {$productosModel->nombre}");
+                }
+            }
+
+            $total = 0;
+
+            foreach ($request->productos as $producto) {
+                $subtotal = $producto["cantidad"] * $producto["precio"];
+                $total += $subtotal;
+            }
+
+            $venta = Venta::create([
+                "fecha" => Carbon::now(),
+                "total" => $total,
+                "empleado_id" => Auth::id()
+            ]);
+
+            foreach ($request->productos as $producto) {
+                $subtotal = $producto["cantidad"] * $producto["precio"];
+
+                DB::table("venta_producto")->insert([
+                    "id_venta" => $venta->id,
+                    "id_producto" => $producto["id"],
+                    "cantidad" => $producto["cantidad"],
+                    "subtotal" => $subtotal
+
+                ]);
+
+                $productosModel = Producto::find($producto["id"]);
+                $productosModel->decrement("stock", $producto["cantidad"]);
+            }
+
+            DB::commit();
+
+
+            return Redirect::route('ventas.index')
+                ->with('success', 'Venta creada exitosamente.');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Error al crear la venta: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
     /**
@@ -51,9 +103,9 @@ class VentaController extends Controller
      */
     public function show($id): View
     {
-        $venta = Venta::find($id);
+        $venta = Venta::with(["empleado", "productos"])->findOrFail($id);
 
-        return view('venta.show', compact('venta'));
+        return view("venta.show", compact("venta"));
     }
 
     /**

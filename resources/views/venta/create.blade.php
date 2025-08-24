@@ -60,6 +60,18 @@
                                 </div>
                             </div>
 
+                            @if ($message = Session::get('success'))
+                                <div class="bg-green-500 text-white font-bold p-4 rounded-lg mb-4">
+                                    <p>{{ $message }}</p>
+                                </div>
+                            @endif
+
+                            @if ($message = Session::get('error'))
+                                <div class="bg-red-500 text-white font-bold p-4 rounded-lg mb-4">
+                                    <p>{{ $message }}</p>
+                                </div>
+                            @endif
+
                             <!-- Tabla de productos agregados -->
                             <div class="mb-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Productos en la Venta</h3>
@@ -93,7 +105,7 @@
 
                                 <form id="form_venta" method="POST" action="{{ route('ventas.store') }}">
                                     @csrf
-                                    <input type="hidden" id="empleado_hidden" name="empleado_id">
+                                    <!-- <input type="hidden" id="empleado_hidden" name="empleado_id"> -->
                                     <div id="productos_hidden"></div>
 
                                     <button type="submit" id="confirmar_venta" class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
@@ -121,8 +133,8 @@
             const noProductos = document.getElementById('no_productos');
             const totalVentaDisplay = document.getElementById('total_venta');
             const confirmarBtn = document.getElementById('confirmar_venta');
-            const empleadoSelect = document.getElementById('empleado_id');
-            const empleadoHidden = document.getElementById('empleado_hidden');
+            // const empleadoSelect = document.getElementById('empleado_id');
+            // const empleadoHidden = document.getElementById('empleado_hidden');
             const productosHidden = document.getElementById('productos_hidden');
 
             // Actualizar precio cuando cambie la selección del producto
@@ -132,11 +144,11 @@
                 precioDisplay.textContent = '$' + parseFloat(precio).toFixed(2);
             });
 
-            // Actualizar empleado hidden cuando cambie la selección
+            /* Actualizar empleado hidden cuando cambie la selección
             empleadoSelect.addEventListener('change', function() {
                 empleadoHidden.value = this.value;
                 actualizarBotonConfirmar();
-            });
+            }); */
 
             // Agregar producto
             agregarBtn.addEventListener('click', function() {
@@ -220,9 +232,9 @@
                 // Actualizar campos hidden
                 if (tieneProductos) {
                     productosHidden.innerHTML = productosVenta.map((producto, index) => `
-                        <input type="hidden" name="productos[${index}][id]" value="${producto.id}">
-                        <input type="hidden" name="productos[${index}][cantidad]" value="${producto.cantidad}">
-                        <input type="hidden" name="productos[${index}][precio]" value="${producto.precio}">
+                        <input type="text" name="productos[${index}][id]" value="${producto.id}">
+                        <input type="text" name="productos[${index}][cantidad]" value="${producto.cantidad}">
+                        <input type="text" name="productos[${index}][precio]" value="${producto.precio}">
                     `).join('');
                 }
             }
