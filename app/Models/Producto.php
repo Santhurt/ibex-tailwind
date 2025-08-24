@@ -28,7 +28,7 @@ class Producto extends Model
 
     public function ventas()
     {
-        return $this->belongsToMany(Venta::class, "venta_producto")
+        return $this->belongsToMany(Venta::class, "venta_producto", "id_venta", "id_producto")
             ->withPivot("cantidad", "subtotal");
     }
     /**
