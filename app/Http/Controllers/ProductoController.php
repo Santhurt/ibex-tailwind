@@ -16,7 +16,8 @@ class ProductoController extends Controller
      */
     public function index(Request $request): View
     {
-        $productos = Producto::paginate();
+        // Mostrar solo productos activos (estado = 1)
+        $productos = Producto::where('estado', 1)->paginate();
 
         return view('producto.index', compact('productos'))
             ->with('i', ($request->input('page', 1) - 1) * $productos->perPage());
@@ -76,9 +77,22 @@ class ProductoController extends Controller
 
     public function destroy($id): RedirectResponse
     {
-        Producto::find($id)->delete();
+        $producto = Producto::find($id);
 
-        return Redirect::route('productos.index')
-            ->with('success', 'Producto eliminado con exito');
+        if (!$producto) {
+            return Redirect::route('productos.index')
+                ->with('error', 'Producto no encontrado');
+        }
+
+        try {
+            // Cambiar estado a 0 en lugar de eliminar físicamente
+            $producto->update(['estado' => 0]);
+
+            return Redirect::route('productos.index')
+                ->with('success', 'Producto desactivado con éxito');
+        } catch (\Exception $e) {
+            return Redirect::route('productos.index')
+                ->with('error', 'Error al desactivar el producto: ' . $e->getMessage());
+        }
     }
 }

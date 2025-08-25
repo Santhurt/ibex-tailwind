@@ -32,7 +32,10 @@ class VentaController extends Controller
      */
     public function create(): View
     {
-        $productos = Producto::where("stock", ">", 0)->get();
+        $productos = Producto::where("stock", ">", 0)
+            ->where("estado", 1)
+            ->get();
+
         $empleados = Empleado::all();
 
         return view('venta.create', compact('productos', 'empleados'));
@@ -43,7 +46,7 @@ class VentaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
- #       dd("entro");
+        #       dd("entro");
 
         DB::beginTransaction();
 

@@ -141,7 +141,7 @@
             productoSelect.addEventListener('change', function() {
                 const selectedOption = this.options[this.selectedIndex];
                 const precio = selectedOption.getAttribute('data-precio') || '0';
-                precioDisplay.textContent = '$' + parseFloat(precio).toFixed(2);
+                precioDisplay.textContent = '$' + parseFloat(precio);
             });
 
             /* Actualizar empleado hidden cuando cambie la selección
@@ -208,8 +208,8 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${producto.nombre}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${producto.cantidad}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${producto.precio.toFixed(2)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${producto.subtotal.toFixed(2)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${producto.precio}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${producto.subtotal}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <button type="button" onclick="eliminarProducto(${index})" class="text-red-600 hover:text-red-900">Eliminar</button>
                             </td>

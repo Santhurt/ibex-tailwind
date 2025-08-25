@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text("descripcion")->nullable();
             $table->decimal("precio", 10, 2);
             $table->integer("stock")->unsigned();
+            $table->boolean("estado")->default(1);
             $table->timestamps();
         });
     }
