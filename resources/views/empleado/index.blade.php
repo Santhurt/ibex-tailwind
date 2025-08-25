@@ -15,7 +15,7 @@
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
                             <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Empleados') }}</h1>
-                            <p class="mt-2 text-sm text-gray-700">A list of all the {{ __('Empleados') }}.</p>
+                            <p class="mt-2 text-sm text-gray-700">Lista de todos los {{ __('Empleados') }}.</p>
                         </div>
                     </div>
 
