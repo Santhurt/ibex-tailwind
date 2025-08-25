@@ -33,8 +33,8 @@
                                         <dt class="text-sm font-medium text-gray-500">Empleado</dt>
                                         <dd class="mt-1 text-sm text-gray-900">
                                             @if($venta->empleado)
-                                                {{ $venta->empleado->nombre }} {{ $venta->empleado->apellido }}
-                                                <span class="text-gray-500">({{ $venta->empleado->cedula }})</span>
+                                                {{ $venta->empleado->name }}
+                                                <span class="text-gray-500">{{ $venta->empleado->id }}</span>
                                             @else
                                                 <span class="text-red-500">Empleado no encontrado</span>
                                             @endif
@@ -42,7 +42,7 @@
                                     </div>
                                     <div>
                                         <dt class="text-sm font-medium text-gray-500">Total de la Venta</dt>
-                                        <dd class="mt-1 text-lg font-bold text-green-600">${{ number_format($venta->total, 2) }}</dd>
+                                        <dd class="mt-1 text-lg font-bold text-green-600">${{ number_format($venta->total) }}</dd>
                                     </div>
                                 </div>
                             </div>
@@ -88,10 +88,10 @@
                                                         {{ $producto->pivot->cantidad }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        ${{ number_format($producto->pivot->subtotal / $producto->pivot->cantidad, 2) }}
+                                                        ${{ number_format($producto->pivot->subtotal / $producto->pivot->cantidad) }}
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                        ${{ number_format($producto->pivot->subtotal, 2) }}
+                                                        ${{ number_format($producto->pivot->subtotal) }}
                                                     </td>
                                                 </tr>
                                             @empty
@@ -108,7 +108,7 @@
                                                     Total:
                                                 </td>
                                                 <td class="px-6 py-3 text-sm font-bold text-green-600">
-                                                    ${{ number_format($venta->total_venta, 2) }}
+                                                    ${{ number_format($venta->total) }}
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -116,7 +116,7 @@
                                 </div>
                             </div>
 
-                            <!-- Resumen estadístico -->
+                            <!-- Resumen estadístico
                             <div class="bg-blue-50 p-6 rounded-lg">
                                 <h3 class="text-lg font-medium text-blue-900 mb-4">Resumen</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -129,11 +129,12 @@
                                         <div class="text-sm text-blue-800">Unidades totales</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-2xl font-bold text-blue-600">${{ number_format($venta->productos->avg('pivot.subtotal'), 2) }}</div>
+                                        <div class="text-2xl font-bold text-blue-600">${{ number_format($venta->productos->avg('pivot.subtotal')) }}</div>
                                         <div class="text-sm text-blue-800">Subtotal promedio</div>
                                     </div>
                                 </div>
                             </div>
+                            -->
 
                             <!-- Información de timestamps -->
                             <div class="text-xs text-gray-500 border-t pt-4">
