@@ -232,9 +232,9 @@
                 // Actualizar campos hidden
                 if (tieneProductos) {
                     productosHidden.innerHTML = productosVenta.map((producto, index) => `
-                        <input type="text" name="productos[${index}][id]" value="${producto.id}">
-                        <input type="text" name="productos[${index}][cantidad]" value="${producto.cantidad}">
-                        <input type="text" name="productos[${index}][precio]" value="${producto.precio}">
+                        <input type="hidden" name="productos[${index}][id]" value="${producto.id}">
+                        <input type="hidden" name="productos[${index}][cantidad]" value="${producto.cantidad}">
+                        <input type="hidden" name="productos[${index}][precio]" value="${producto.precio}">
                     `).join('');
                 }
             }

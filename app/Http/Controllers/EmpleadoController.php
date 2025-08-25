@@ -75,17 +75,38 @@ class EmpleadoController extends Controller
             ->with('success', 'Empleado actualizado con exito');
     }
 
-    public function destroy($id): redirectresponse
+    public function destroy($id): RedirectResponse
     {
         $empleadoAutenticado = Auth::id();
-        $empleadoAEliminar = empleado::find($id);
+        $empleadoAEliminar = Empleado::find($id);
 
-        if($empleadoAEliminar && $empleadoAEliminar->id != $empleadoAutenticado) {
-            $empleadoAEliminar->delete();
-            return Redirect::route("empleados.index")->with("success", "Empleado eliminado con exito");
+        if (!$empleadoAEliminar) {
+            return Redirect::route('empleados.index')
+                ->with('error', 'Empleado no encontrado');
         }
 
-        return redirect::route('empleados.index')
-            ->with('error', 'No se puede eliminar este empleado');
+        // Verificar que no sea el empleado autenticado
+        if ($empleadoAEliminar->id == $empleadoAutenticado) {
+            return Redirect::route('empleados.index')
+                ->with('error', 'No puedes eliminarte a ti mismo');
+        }
+
+        // Verificar si el empleado tiene ventas asociadas
+        $tieneVentas = $empleadoAEliminar->ventas()->exists();
+
+        if ($tieneVentas) {
+            $cantidadVentas = $empleadoAEliminar->ventas()->count();
+            return Redirect::route('empleados.index')
+                ->with('error', "No se puede eliminar el empleado porque tiene {$cantidadVentas} venta(s) asociada(s)");
+        }
+
+        try {
+            $empleadoAEliminar->delete();
+            return Redirect::route("empleados.index")
+                ->with("success", "Empleado eliminado con éxito");
+        } catch (\Exception $e) {
+            return Redirect::route('empleados.index')
+                ->with('error', 'Error al eliminar el empleado: ' . $e->getMessage());
+        }
     }
 }

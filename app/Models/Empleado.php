@@ -33,7 +33,7 @@ class Empleado extends Model
 
     public function ventas()
     {
-        $this->hasMany(Venta::class);
+        return $this->hasMany(Venta::class, "empleado_id");
     }
 
 }
