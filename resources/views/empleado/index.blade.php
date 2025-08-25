@@ -8,18 +8,7 @@
     <div class="py-12">
         <div class="max-w-full mx-auto sm:px-6 lg:px-8 space-y-6">
 
-
-            @if ($message = Session::get('success'))
-                <div class="bg-green-500 text-white font-bold p-4 rounded-lg mb-4">
-                    <p>{{ $message }}</p>
-                </div>
-            @endif
-
-            @if ($message = Session::get('error'))
-                <div class="bg-red-500 text-white font-bold p-4 rounded-lg mb-4">
-                    <p>{{ $message }}</p>
-                </div>
-            @endif
+            <x-error-message />
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="w-full">
