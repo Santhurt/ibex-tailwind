@@ -22,14 +22,17 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endauth
-
+                    <!--
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('dashboard')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    -->
 
                     <x-nav-link :href="route('productos.index')" :active="request()->routeIs('dashboard')">
                         Productos
                     </x-nav-link>
+
+                    @auth
 
                     <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('dashboard')">
                         Empleados
@@ -38,6 +41,8 @@
                     <x-nav-link :href="route('ventas.index')" :active="request()->routeIs('dashboard')">
                         Ventas
                     </x-nav-link>
+
+                    @endauth
                 </div>
             </div>
 

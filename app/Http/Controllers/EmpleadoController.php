@@ -41,7 +41,7 @@ class EmpleadoController extends Controller
         Empleado::create($request->validated());
 
         return Redirect::route('empleados.index')
-            ->with('success', 'Empleado created successfully.');
+            ->with('success', 'Empleado creado con exito.');
     }
 
     /**
@@ -72,7 +72,7 @@ class EmpleadoController extends Controller
         $empleado->update($request->validated());
 
         return Redirect::route('empleados.index')
-            ->with('success', 'Empleado updated successfully');
+            ->with('success', 'Empleado actualizado con exito');
     }
 
     public function destroy($id): redirectresponse
@@ -82,7 +82,7 @@ class EmpleadoController extends Controller
 
         if($empleadoAEliminar && $empleadoAEliminar->id != $empleadoAutenticado) {
             $empleadoAEliminar->delete();
-            return Redirect::route("empleados.index")->with("success", "Empleado eliminado");
+            return Redirect::route("empleados.index")->with("success", "Empleado eliminado con exito");
         }
 
         return redirect::route('empleados.index')
