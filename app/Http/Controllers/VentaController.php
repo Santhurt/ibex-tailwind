@@ -126,7 +126,7 @@ class VentaController extends Controller
         $venta->update($request->validated());
 
         return Redirect::route('ventas.index')
-            ->with('success', 'Venta updated successfully');
+            ->with('success', 'Venta actualizada con exito');
     }
 
     public function destroy($id): RedirectResponse
@@ -134,7 +134,7 @@ class VentaController extends Controller
         Venta::find($id)->delete();
 
         return Redirect::route('ventas.index')
-            ->with('success', 'Venta deleted successfully');
+            ->with('success', 'Venta eliminada con exito');
     }
 
     public function getProductPrice($id)
